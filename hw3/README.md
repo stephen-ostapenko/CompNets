@@ -20,11 +20,13 @@
 
 * клиент:
 ```shell
-./gradlew run --args="-a <host address> -p <port> -f <file name>"
+./gradlew run --args="-a <host address> -p <port> -f <file name> [-s <path to save received file>]"
 ```
 из корня модуля `client`.
 
 Если порт для сервера не указан явно, выбирается случайный свободный.
+
+Если при пользовании клиентом хочется не только посмотреть файл, но и сохранить его, можно воспользоваться флагом `-s`.
 
 ### Примеры работы
 
