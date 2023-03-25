@@ -1,10 +1,8 @@
 import org.apache.commons.httpclient.HttpStatus
-import rawhttp.core.RawHttp
-import rawhttp.core.RawHttpRequest
-import rawhttp.core.RawHttpResponse
-import rawhttp.core.RequestLine
+import rawhttp.core.*
 import rawhttp.core.body.StringBody
 import java.io.IOException
+import java.net.HttpURLConnection
 import java.net.Socket
 import java.net.URI
 import java.net.URISyntaxException
@@ -48,7 +46,37 @@ fun sendRequestFromProxy(request: RawHttpRequest, logger: Logger): RawHttpRespon
     return response
 }
 
-fun serveRequest(socket: Socket, filter: Filter, logger: Logger) = socket.use {
+fun sendConditionalRequestFromProxy(url: String, request: RawHttpRequest, logger: Logger, cache: Cache): RawHttpResponse<*> {
+    if (request.method != "GET") {
+        return sendRequestFromProxy(request, logger)
+    }
+
+    val cachedResponseString = cache.getCachedResponse(url) ?: return sendRequestFromProxy(request, logger)
+    val cachedResponse = RawHttp().parseResponse(cachedResponseString).eagerly()
+
+    val lastModified = cachedResponse.headers["Last-Modified"].firstOrNull()
+    val etag = cachedResponse.headers["ETag"].firstOrNull()
+
+    val headerBuilder = RawHttpHeaders.newBuilder()
+    if (lastModified != null) {
+        headerBuilder.with("If-Modified-Since", lastModified)
+    }
+    if (etag != null) {
+        headerBuilder.with("If-None-Match", etag)
+    }
+
+    val newRequest = request.withHeaders(request.headers.and(headerBuilder.build()))
+    val response = sendRequestFromProxy(newRequest, logger)
+
+    if (response.statusCode != 304) {
+        return response
+    }
+
+    logger.writeLine("using cached response")
+    return cachedResponse
+}
+
+fun serveRequest(socket: Socket, filter: Filter, logger: Logger, cache: Cache) = socket.use {
     val inputStream = it.getInputStream()
     val outputStream = it.getOutputStream()
 
@@ -113,6 +141,10 @@ fun serveRequest(socket: Socket, filter: Filter, logger: Logger) = socket.use {
         RequestLine(request.method, fullUrl, request.startLine.httpVersion)
     )
 
-    val response = sendRequestFromProxy(newRequest, logger)
+    val response = sendConditionalRequestFromProxy(url, newRequest, logger, cache)
     response.writeTo(outputStream)
+
+    if (newRequest.method == "GET" && response.statusCode == 200) {
+        cache.saveResponse(url, response)
+    }
 }
