@@ -63,6 +63,32 @@ new logger created at 2023-03-22T15:49:13.419577901
 2023-03-22T16:44:54.854812704: serving request from /0:0:0:0:0:0:0:1
 2023-03-22T16:44:54.983009983: PUT http:///httpbin.org/post
 2023-03-22T16:44:54.983258828: 405: Method Not Allowed
+
+2023-03-22T16:50:20.423330180: serving request from /127.0.0.1
+2023-03-22T16:50:20.576214202: GET http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file5.html
+2023-03-22T16:50:20.895369943: 200: OK
+
+2023-03-22T16:50:21.256089622: serving request from /127.0.0.1
+2023-03-22T16:50:21.261389962: GET http://gaia.cs.umass.edu/wireshark-labs/banner.jpg
+2023-03-22T16:50:21.649028731: 200: OK
+
+2023-03-22T16:50:21.656907368: serving request from /127.0.0.1
+2023-03-22T16:50:21.682810041: GET http://favicon.ico
+2023-03-22T16:50:21.691448252: 404: Not Found
+
+2023-03-22T16:50:46.256681755: serving request from /127.0.0.1
+2023-03-22T16:50:46.391695062: GET http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file5.html
+2023-03-22T16:50:46.722882494: 304: Not Modified
+2023-03-22T16:50:46.725403046: using cached response
+
+2023-03-22T16:50:47.136776863: serving request from /127.0.0.1
+2023-03-22T16:50:47.150231869: GET http://gaia.cs.umass.edu/wireshark-labs/banner.jpg
+2023-03-22T16:50:47.446048669: 304: Not Modified
+2023-03-22T16:50:47.446646369: using cached response
+
+2023-03-22T16:50:47.451670108: serving request from /127.0.0.1
+2023-03-22T16:50:47.460072949: GET http://favicon.ico
+2023-03-22T16:50:47.465860059: 404: Not Found
 ```
 
 ### Черный список
@@ -91,3 +117,5 @@ new logger created at 2023-03-22T15:49:13.419577901
 Кэш реализован в файле `Cache.kt`. В качестве параметров запуска нужно указать путь к папке, в которой будут сохраняться сохраненные запросы.
 
 В кеш сохраняются только те запросы метода `GET`, которые имеют код возврата 200. Запросы метода `POST` в кеш не сохраняются.
+
+Когда сервер возвращает сохраненный ранее запрос, в лог выводится фраза "using cached response".

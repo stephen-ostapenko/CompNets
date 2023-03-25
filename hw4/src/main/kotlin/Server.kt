@@ -50,8 +50,7 @@ fun sendConditionalRequestFromProxy(url: String, request: RawHttpRequest, logger
         return sendRequestFromProxy(request, logger)
     }
 
-    val cachedResponseString = cache.getCachedResponse(url) ?: return sendRequestFromProxy(request, logger)
-    val cachedResponse = RawHttp().parseResponse(cachedResponseString).eagerly()
+    val cachedResponse = cache.getCachedResponse(url) ?: return sendRequestFromProxy(request, logger)
 
     val lastModified = cachedResponse.headers["Last-Modified"].firstOrNull()
     val etag = cachedResponse.headers["ETag"].firstOrNull()

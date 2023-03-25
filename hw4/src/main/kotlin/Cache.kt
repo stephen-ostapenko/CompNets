@@ -1,3 +1,4 @@
+import rawhttp.core.RawHttp
 import rawhttp.core.RawHttpResponse
 import java.io.File
 import java.nio.file.Files
@@ -10,13 +11,13 @@ class Cache(private val pathToCache: Path) {
         .toList()
         .toMutableSet()
 
-    fun getCachedResponse(url: String): String? {
+    fun getCachedResponse(url: String): RawHttpResponse<*>? {
         val cachedResponseFile = url.replace("/", "*")
         if (cachedResponseFile !in cachedResponses) {
             return null
         }
 
-        return File(pathToCache.toFile(), cachedResponseFile).readText()
+        return RawHttp().parseResponse(File(pathToCache.toFile(), cachedResponseFile))
     }
 
     fun saveResponse(url: String, response: RawHttpResponse<*>) {
