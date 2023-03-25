@@ -6,7 +6,7 @@ class Logger(pathToLog: Path) {
     private val logFile = pathToLog.toFile()
 
     init {
-        logFile.appendText("new logger created at ${LocalDateTime.now()}\n")
+        logFile.appendText("\nnew logger created at ${LocalDateTime.now()}\n")
     }
 
     fun newLine() {

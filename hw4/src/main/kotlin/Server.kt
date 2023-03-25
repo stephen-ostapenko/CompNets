@@ -2,7 +2,6 @@ import org.apache.commons.httpclient.HttpStatus
 import rawhttp.core.*
 import rawhttp.core.body.StringBody
 import java.io.IOException
-import java.net.HttpURLConnection
 import java.net.Socket
 import java.net.URI
 import java.net.URISyntaxException
@@ -102,7 +101,7 @@ fun serveRequest(socket: Socket, filter: Filter, logger: Logger, cache: Cache) =
             .withBody(StringBody("Method ${request.method} is not allowed\n"))
             .writeTo(outputStream)
 
-        logger.writeLine(request.method)
+        logger.writeLine("${request.method} http://${request.uri.path}")
         logger.writeStatusCode(405)
 
         return@use
