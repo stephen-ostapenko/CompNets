@@ -71,3 +71,7 @@ Options:
 #### Пример работы
 
 ![broadcast](./assets/task3.png)
+
+## Задание 2
+
+Решения задач находятся в [файле](./assets/theory.pdf).
