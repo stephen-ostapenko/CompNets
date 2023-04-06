@@ -37,3 +37,5 @@
 ```shell
 ./gradlew :run
 ```
+
+![task3](./assets/task3.png)
