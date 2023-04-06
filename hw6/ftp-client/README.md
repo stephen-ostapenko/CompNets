@@ -11,20 +11,29 @@
 
 * получить список папок и файлов
 ```shell
-./gradlew run --args="list -h <host> [-P <port>] -u <username> -p <password> -f <path to file or folder on server>"
+./gradlew ConsoleClient:run --args="list -h <host> [-P <port>] -u <username> -p <password> -f <path to file or folder on server>"
 ```
 
 * вывести содержимое файла в консоль
 ```shell
-./gradlew run --args="read -h <host> [-P <port>] -u <username> -p <password> -f <path to file>"
+./gradlew ConsoleClient:run --args="read -h <host> [-P <port>] -u <username> -p <password> -f <path to file>"
 ```
 
 * скачать файл с сервера
 ```shell
-./gradlew run --args="download -h <host> [-P <port>] -u <username> -p <password> -f <path to file on server>:<path to file on local machine>"
+./gradlew ConsoleClient:run --args="download -h <host> [-P <port>] -u <username> -p <password> -f <path to file on server>:<path to file on local machine>"
 ```
 
 * загрузить файл на сервер
 ```shell
-./gradlew run --args="upload -h <host> [-P <port>] -u <username> -p <password> -f <path to file on server>:<path to file on local machine>"
+./gradlew ConsoleClient:run --args="upload -h <host> [-P <port>] -u <username> -p <password> -f <path to file on server>:<path to file on local machine>"
+```
+
+### 3. GUI FTP клиент
+
+Клиент с графическим интерфейсом находится в текущей [папке](./).
+
+Запуск с помощью gradle:
+```shell
+./gradlew :run
 ```
