@@ -29,7 +29,7 @@ traceroute to akamai.com (23.55.9.23), 30 hops max, 56 byte packets
 
 ### 1
 
-![1](pic1.png)
+![1](./assets/pic1.png)
 
 Видно, что адрес `192.168.0.101`.
 
@@ -43,10 +43,10 @@ traceroute to akamai.com (23.55.9.23), 30 hops max, 56 byte packets
 
 ### 4
 
-![2](pic2.png)
+![2](./assets/pic2.png)
 
-a. Если пролистать запросы, можно увидеть, что постоянно меняются поля `Identification` и `Header Checksum`.
-b. Не меняются поля `Version`, `Header Length`, `Differentiated Services Field`, `Total Length`, `Flags`, `Fragment Offset`, `Protocol`, `Source Address`, `Destination Address`, которые и не должны меняться. Должны меняться поля, указанные в пункте a. и поле `Time to Live`, которое меняется раз в 3 запроса (когда утилита переходит на очередную итерацию).
+a. Если пролистать запросы, можно увидеть, что постоянно меняются поля `Identification` и `Header Checksum`. \
+b. Не меняются поля `Version`, `Header Length`, `Differentiated Services Field`, `Total Length`, `Flags`, `Fragment Offset`, `Protocol`, `Source Address`, `Destination Address`, которые и не должны меняться. Должны меняться поля, указанные в пункте a. и поле `Time to Live`, которое меняется раз в 3 запроса (когда утилита переходит на очередную итерацию). \
 с. В моем случае значения выглядят случайными, так что никакой закономерности нет.
 
 ### 5
@@ -55,7 +55,7 @@ b. Не меняются поля `Version`, `Header Length`, `Differentiated Se
 
 ### 6
 
-![3](pic3.png)
+![3](./assets/pic3.png)
 
 Поле `Identification` постоянно меняется, каждый раз увеличиваясь на 1. Поле `TTL` всегда равно 64.
 
@@ -63,7 +63,7 @@ b. Не меняются поля `Version`, `Header Length`, `Differentiated Se
 
 ### 7
 
-![4](pic4.png)
+![4](./assets/pic4.png)
 
 Если взять произвольную серию, `Identification` снова случайно меняется каждый раз, а `TTL` всегда одинаковый в рамках одной серии (при этом, в разных сериях `TTL` бывает 239, 240, 241, 246, 254, ...).
 
@@ -90,7 +90,7 @@ traceroute to akamai.com (23.55.9.23), 30 hops max, 3500 byte packets
 ...
 ```
 
-![5](pic5.png)
+![5](./assets/pic5.png)
 
-a. Сам ICMP-ответ не фрагментируется. А вот сообщение, уходящее с компьютера фрагментируется на 3 части, как видно на картинке.
+a. Сам ICMP-ответ не фрагментируется. А вот сообщение, уходящее с компьютера фрагментируется на 3 части, как видно на картинке. \
 b. Меняются поля `Flags` и `Fragment Offset`, отвечающие за фрагментацию. Также меняется поле `Total Length`, т. к. размер последнего фрагмента отличается.
