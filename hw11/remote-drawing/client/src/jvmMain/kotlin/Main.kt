@@ -24,8 +24,8 @@ const val HEIGHT = 600
 @Composable
 @Preview
 fun app(args: Array<String>) {
-    val points by remember { mutableStateOf(mutableListOf<List<Offset>>()) }
-    val currentPoints by remember { mutableStateOf(mutableListOf<Offset>()) }
+    val points = remember { mutableStateListOf<List<Offset>>() }
+    val currentPoints = remember { mutableStateListOf<Offset>() }
     var pointsVersion by remember { mutableStateOf(0L) }
 
     var brushDown by remember { mutableStateOf(false) }
